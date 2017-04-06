@@ -1,37 +1,36 @@
-## Welcome to GitHub Pages
+## BLT: Boogie with less triggers 
 
-You can use the [editor on GitHub](https://github.com/emptylambda/BLT/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+<!-- You can use the [editor on GitHub](https://github.com/emptylambda/BLT/edit/master/README.md) to maintain and preview the content for your website in Markdown files. -->
+<!-- Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files. -->
+<!-- ### Markdown -->
+<!-- Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for -->
+<!-- ```markdown -->
+<!-- Syntax highlighted code block -->
 
-### Markdown
+<!-- # Header 1 -->
+<!-- ## Header 2 -->
+<!-- ### Header 3 -->
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+<!-- - Bulleted -->
+<!-- - List -->
 
-```markdown
-Syntax highlighted code block
+<!-- 1. Numbered -->
+<!-- 2. List -->
 
-# Header 1
-## Header 2
-### Header 3
+<!-- **Bold** and _Italic_ and `Code` text -->
 
-- Bulleted
-- List
+<!-- [Link](url) and ![Image](src) -->
+<!-- ``` -->
+<!-- For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/). -->
+<!-- ### Jekyll Themes -->
 
-1. Numbered
-2. List
+<!-- Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/emptylambda/BLT/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file. -->
 
-**Bold** and _Italic_ and `Code` text
+### What is BLT?
+- BLT is a tool: it feeds on programs written in Boogie IVL (core subset of the entire language, we are working toward supporting the full language) and outputs first-order conjectures in TPTP syntax.
+- BLT is a translation scheme: TBD
+- BLT is a papper: to appear!
 
-[Link](url) and ![Image](src)
-```
-
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/emptylambda/BLT/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+### Contact
+Does BLT suit your interest? Or do you wish to use BLT for other research? Please feel free drop me a mail anytime!
