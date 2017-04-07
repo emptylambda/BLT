@@ -28,9 +28,10 @@
 <!-- Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/emptylambda/BLT/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file. -->
 
 ### What is BLT?
-- BLT is a tool: it feeds on programs written in Boogie IVL (core subset of the entire language, we are working toward supporting the full language) and outputs first-order conjectures in TPTP syntax.
-- BLT is a translation scheme: TBD
+- BLT is a tool: it feeds on programs written in [Boogie IVL](https://www.microsoft.com/en-us/research/project/boogie-an-intermediate-verification-language/) (core subset of the entire language, we are working toward supporting the full language) and outputs first-order logic conjectures in [TPTP](http://www.cs.miami.edu/~tptp/) syntax; the TPTP standard, similar to existing Boogie target language SMTLib, is a widely accepted language standard for theorem provers. However, unlike SMTLib, TPTP is not geared toward the SMT solvers but general automated theoerem provers (ATP). In BLT's usage case, we are currently targeting one specific ATP due to its recent improvements: [Vampire](http://www.vprover.org/). 
+- BLT is a translation scheme: to appear!
 - BLT is a papper: to appear!
 
 ### Contact
 Does BLT suit your interest? Or do you wish to use BLT for other research? Please feel free drop me a mail anytime!
+Are you interested in other formal methods or program verification? check out our FM @Chalmers. 
