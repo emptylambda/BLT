@@ -33,8 +33,8 @@
 - BLT is a papper: to appear!
 
 ### Try out BLT
-[OSX Binary](https://github.com/emptylambda/BLT/blob/bdad4168d8868ca87a7ccb92a69d345e1b8af14c/bin/BLT_osx_alpha)
-
+[OSX Binary](https://github.com/emptylambda/BLT/raw/bdad4168d8868ca87a7ccb92a69d345e1b8af14c/bin/BLT_osx_alpha)
+             
 ### Contact
 Does BLT suit your interest? Or do you wish to use BLT for other research? Please feel free drop me a mail anytime!
 Are you interested in other formal methods or program verification? check out our FM @Chalmers. 
