@@ -1,3 +1,3 @@
-module BLT where 
+module Main where 
 
 main = print "BLT" 
