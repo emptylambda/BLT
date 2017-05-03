@@ -28,7 +28,7 @@ file. -->
 
 ### Try out BLT
 [OSX Binary](https://github.com/emptylambda/BLT/raw/bdad4168d8868ca87a7ccb92a69d345e1b8af14c/bin/BLT_osx_alpha)
-             
+[Unix Binary](https://github.com/emptylambda/BLT/raw/5d62d16ea11470d024c08e9bec2b2f49304aa517/bin/BLT_unix_001)
 ### Contact
 Does BLT suit your interest? Or do you wish to use BLT for other research? Please feel free drop me a mail anytime!
 Are you interested in other formal methods or program verification? check out our FM @Chalmers. 
