@@ -23,9 +23,6 @@ file. -->
   Boogie language at the moment, but we are working on the extension
   of BLT to further support the full language. 
 
-- BLT is also a translation scheme. to appear!
-
-- Finally, BLT is a papper. (Under submission) 
 
 ### Try out BLT
 - [OSX Binary](https://github.com/emptylambda/BLT/raw/bdad4168d8868ca87a7ccb92a69d345e1b8af14c/bin/BLT_osx_alpha)
