@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title></title>
+<meta name="author" content="(Yu-Ting Chen)"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="file:////Users/yutingc/BLT/Presentation/reveal.js/css/reveal.css"/>
+
+<link rel="stylesheet" href="file:////Users/yutingc/BLT/Presentation/reveal.js/css/theme/blood_mod.css" id="theme"/>
+
+
+<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+<script>
+    if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = 'file:////Users/yutingc/BLT/Presentation/reveal.js/css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    }
+</script>
+</head>
+<body>
+<img src="assets/chalmerslogo_dark.png" style="height:65px; margin: 10px 20px;" align="right" >
+<div class="reveal">
+<div class="slides">
+
+<section>
+<section id="slide-org21069f6">
+<h2 id="org21069f6">Triggerless Happy</h2>
+<p>
+Boogie less trigger 
+</p>
+</section>
+<section id="slide-org555bb76">
+<h3 id="org555bb76">Demo</h3>
+
+</section>
+</section>
+<section>
+<section id="slide-org7fc7dd6">
+<h2 id="org7fc7dd6">Boogie IVL</h2>
+<div class="outline-text-2" id="text-org7fc7dd6">
+</div></section>
+<section id="slide-orgf2e1414">
+<h3 id="orgf2e1414">Intermediate language</h3>
+<p>
+Gateway to program verification.
+</p>
+
+</section>
+<section id="slide-org5c88ec0">
+<h3 id="org5c88ec0">Existing pipeline</h3>
+
+
+</section>
+</section>
+<section>
+<section id="slide-orge745f3e">
+<h2 id="orge745f3e">Quantified formulae</h2>
+<div class="outline-text-2" id="text-orge745f3e">
+</div></section>
+<section id="slide-orgbc1a3ef">
+<h3 id="orgbc1a3ef"></h3>
+<p>
+(especially, the universal ones)
+</p>
+<h1>∀</h1>
+<div class="org-src-container">
+
+<pre  class="fragment (appear)"><span style="color: #20b2aa; font-weight: bold;">forall</span> <span style="color: #9acd32;">i</span> : <span style="color: #9370db;">int</span> :: i != i + 1;
+</pre>
+</div>
+<div class="org-src-container">
+
+<pre  class="fragment (appear)"><span style="color: #20b2aa; font-weight: bold;">forall</span> <span style="color: #9acd32;">i</span> : <span style="color: #9370db;">int</span> :: (<span style="color: #20b2aa; font-weight: bold;">exists</span> <span style="color: #9acd32;">j</span> : <span style="color: #9370db;">int</span> :: i &lt; j);
+</pre>
+</div>
+
+</section>
+<section id="slide-orgb5074cc">
+<h3 id="orgb5074cc"></h3>
+<p>
+(Awesome, especially in context of prog. verification)
+</p>
+<div class="org-src-container">
+
+<pre  class="fragment (appear)"><span style="color: #76ee00;">type</span> int_array = [<span style="color: #9370db;">int</span>] <span style="color: #9370db;">int</span>;
+<span style="color: #cd853f;">// </span><span style="color: #cd853f;">m is an upper bound of a[low..high)</span>
+<span style="color: #76ee00;">function</span> <span style="color: #00ff7f;">is_upper</span>(<span style="color: #9acd32;">m</span>: <span style="color: #9370db;">int</span>, <span style="color: #9acd32;">a</span>: <span style="color: #9370db;">int_array</span>,
+      <span style="color: #9acd32;">low</span>: <span style="color: #9370db;">int</span>, <span style="color: #9acd32;">high</span>: <span style="color: #9370db;">int</span>) <span style="color: #76ee00;">returns</span> (<span style="color: #9370db;">bool</span>)
+<span style="color: #1e90ff;">{ </span><span style="text-decoration: underline;">( &#8704; </span><span style="color: #9acd32; text-decoration: underline;">j</span><span style="text-decoration: underline;">: </span><span style="color: #9370db; text-decoration: underline;">int</span><span style="text-decoration: underline;"> :: low &lt;= j  &amp;&amp; j &lt; high  ==&gt;  m &gt;= a[j] )</span><span style="color: #1e90ff;"> }</span>
+</pre>
+</div>
+</section>
+</section>
+</div>
+</div>
+<script src="file:////Users/yutingc/BLT/Presentation/reveal.js/lib/js/head.min.js"></script>
+<script src="file:////Users/yutingc/BLT/Presentation/reveal.js/js/reveal.js"></script>
+
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: false,
+center: true,
+slideNumber: 'c/t',
+rollingLinks: false,
+keyboard: true,
+overview: true,
+
+theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+transition: Reveal.getQueryHash().transition || 'fade', // default/cube/page/concave/zoom/linear/fade/none
+transitionSpeed: 'default',
+multiplex: {
+    secret: '', // null if client
+    id: '', // id, obtained from socket.io server
+    url: '' // Location of socket.io server
+},
+
+// Optional libraries used to extend on reveal.js
+dependencies: [
+ { src: 'file:////Users/yutingc/BLT/Presentation/reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+ { src: 'file:////Users/yutingc/BLT/Presentation/reveal.js/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+ { src: 'file:////Users/yutingc/BLT/Presentation/reveal.js/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+ { src: 'file:////Users/yutingc/BLT/Presentation/reveal.js/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+ { src: 'file:////Users/yutingc/BLT/Presentation/reveal.js/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }]
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,45 @@
+# org-mode properties # 
+#+OPTIONS: toc:nil num:nil 
+
+# reveal properties # 
+#+REVEAL_ROOT: file:////Users/yutingc/BLT/Presentation/reveal.js/
+#+REVEAL_THEME: blood_mod 
+#+REVEAL_TRANS: fade
+#+OPTIONS: reveal_title_slide:nil reveal_slide_number:c/t reveal_progress:t 
+#+REVEAL_PREAMBLE: <img src="assets/chalmerslogo_dark.png" style="height:65px; margin: 10px 20px;" align="right" >
+
+* Triggerless Happy
+Boogie less trigger 
+** Demo 
+
+* Boogie IVL 
+** Intermediate language 
+Gateway to program verification.
+
+** Existing pipeline 
+
+
+* Quantified formulae 
+
+** 
+(especially, the universal ones)
+#+REVEAL_HTML: <h1>∀</h1>
+#+ATTR_REVEAL: :frag (appear)
+#+BEGIN_SRC boogie
+  forall i : int :: i != i + 1; 
+#+END_SRC
+#+ATTR_REVEAL: :frag (appear)
+#+BEGIN_SRC boogie
+  forall i : int :: (exists j : int :: i < j);
+#+END_SRC
+
+** 
+(Awesome, especially in context of prog. verification)
+#+ATTR_REVEAL: :frag (appear)
+#+BEGIN_SRC boogie
+  type int_array = [int] int;
+  // m is an upper bound of a[low..high)
+  function is_upper(m: int, a: int_array,
+                    low: int, high: int) returns (bool)
+  { ( ∀ j: int :: low <= j  && j < high  ==>  m >= a[j] ) }
+#+END_SRC
