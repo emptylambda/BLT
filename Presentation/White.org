@@ -4,13 +4,18 @@
 # reveal properties # 
 #+REVEAL_ROOT: file:////Users/yutingc/BLT/Presentation/reveal.js/
 # CDN AT http://cdn.jsdelivr.net/reveal.js/3.0.0/
-#+REVEAL_THEME: blood_mod 
+#+REVEAL_THEME: simple
 #+REVEAL_TRANS: fade
 #+OPTIONS: reveal_title_slide:nil reveal_slide_number:c/t reveal_progress:t 
-#+REVEAL_PREAMBLE: <img src="assets/chalmerslogo_dark.png" style="height:65px; margin: 10px 20px;" align="right" >
+#+REVEAL_PREAMBLE: <img src="assets/chalmerslogo.tiff" style="height:65px; margin: 10px 20px;" align="right" >
+
 
 * Triggerless Happy
-Boogie less trigger 
+Intermediate Verification with a First-Order Prover
+
+by 
+#+REVEAL_HTML:<u>YuTing Chen</u> & Carlo A. Furia
+
 ** Demo 
 
 * Boogie IVL 
@@ -34,8 +39,8 @@ Gateway to program verification.
   forall i : int :: (exists j : int :: i < j);
 #+END_SRC
 
-** 
-(Awesome, especially in context of prog. verification)
+** Universal quantifiers 
+(Awesome! especially in context of prog. verification)
 #+ATTR_REVEAL: :frag (appear)
 #+BEGIN_SRC boogie
   type int_array = [int] int;
