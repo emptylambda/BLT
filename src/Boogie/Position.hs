@@ -69,7 +69,6 @@ inheritPos f a = attachPos (position a) (f a)
 inheritPos2 :: (Pos a -> Pos b -> c) -> Pos a -> Pos b -> Pos c
 inheritPos2 f a b = attachPos (position a) (f a b)
 
-
 -- | wrapper around line number
 lineNo :: SourcePos -> String 
 lineNo =  show . sourceLine

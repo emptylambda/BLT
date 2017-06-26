@@ -16,9 +16,29 @@ Intermediate Verification with a First-Order Prover
 by 
 #+REVEAL_HTML:<u>YuTing Chen</u> & Carlo A. Furia
 
+** 
+#+REVEAL_HTML: We <span style="color:red;">all</span> write programs
+#+ATTR_REVEAL: :frag (appear)
+We all write programs, right?
+#+ATTR_REVEAL: :frag (appear)
+We all write programs RIGHT?
+
 ** Demo 
 
+* Program verification
+
+Functional correctness: 
+#+ATTR_REVEAL: :frag (appear)
+  - a program really does what it intended to be
+  - Equally important: the program and its intention (specifications)
+
+** Systematic approach
+
+** 
+#+REVEAL_HTML: <img class="plain"  src="./assets/Program_Veri_Pipeline.png"/>
+
 * Boogie IVL 
+
 ** Intermediate language 
 Gateway to program verification.
 
