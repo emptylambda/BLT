@@ -1,0 +1,198 @@
+# org-mode properties # 
+#+OPTIONS: toc:nil num:nil 
+
+# reveal properties # 
+#+REVEAL_ROOT: file:////Users/yutingc/BLT/Presentation/reveal.js/
+# CDN AT http://cdn.jsdelivr.net/reveal.js/3.0.0/
+
+#+REVEAL_THEME: simple
+#+REVEAL_TRANS: fade
+#+OPTIONS: reveal_title_slide:nil reveal_slide_number:c/t reveal_progress:t 
+#+OPTIONS: reveal_center:nil
+#+REVEAL_PREAMBLE: <img src="assets/chalmerslogo.tiff" style="height:65px; margin: 10px 20px;" align="right" >
+
+* Let Vampire Boogie! 
+Using Vampire as Intermediate Verification Back-End
+#+REVEAL_HTML:<br/>
+#+REVEAL_HTML:<hr><br/>
+@ 4th Vampire workshop (Göteborg)
+
+by 
+#+REVEAL_HTML:<u>YuTing Chen</u> & Carlo A. Furia
+
+
+
+# ** Universal quantifiers 
+# (Awesome! especially in context of prog. verification)
+# #+ATTR_REVEAL: :frag (appear)
+# #+BEGIN_SRC boogie
+#   type int_array = [int] int;
+#   // m is an upper bound of a[low..high)
+#   function is_upper(m: int, a: int_array,
+#                     low: int, high: int) returns (bool)
+#   { ( ∀ j: int :: low <= j  && j < high  ==>  m >= a[j] ) }
+# #+END_SRC
+
+* 
+** Proving a program is correct ... 
+#+ATTR_REVEAL: :frag (appear)
+  + More than just taking in a correct program
+  + Also more than showing a program _does not go wrong_
+  + _Functional_ correctness (does the _right_ things) 
+  + Pre / Post-conditions + other specs (framing / invariants ...) 
+  + _Iterative_ process of tuning on Program + Specs 
+  + (Responsive) Automation is needed 
+
+* 
+** Intermediate Verification 
+#+ATTR_REVEAL: :frag (appear)
++ Interfacing layer for program verifiers 
++ _Core language_ for both Spec and Program
++ Contract-based spec (Pre / Post condition) 
++ _Verification Condition Generation_ (VC gen)
++ Boogie / Why3 / ...
+ 
+** Existing Pipeline for Verifiers 
+#+ATTR_REVEAL: :frag (appear)
+#+REVEAL_HTML:<img class="plain" data-src="./assets/Exist_BLT_Flow.png">
+
+** Boogie 
+#+ATTR_REVEAL: :frag (appear)
++ Refering to both the VCGen tool & language (aka BoogiePL)
++ Default back-end prover: Z3 / cvc4 
++ Basis of several verifiers (Dafny / Spec# / VCC / HAVOC ...) 
+
+# [TASTE OF BOOGIE]
+* Demo 
+
+** 
+#+BEGIN_NOTES
+Hidden slide in case Live demo goes wrong
+#+END_NOTES
+
+
+# [PRESENTING PROBLEM]
+* Quantifier Reasoning 
+#+ATTR_REVEAL: :frag (appear)
+(especially, the universal ones)
+  #+REVEAL_HTML: <h1>∀</h1>
+#+ATTR_REVEAL: :frag (appear)
+#+BEGIN_SRC boogie
+  forall i : int :: i != i + 1; 
+  forall i : int :: (exists j : int :: i < j);
+#+END_SRC
+** Forall, but for which? 
+#+ATTR_REVEAL: :frag (appear)
+  + ∀ x can be instantiated with any concrete value (logically sound) 
+  + Instantiated terms clutter the search space 
+  + SMT solvers have difficulties dealing with quantifiers 
+    (not generally decidable)
+
+** Triggers: directives for instantiation
+#+ATTR_REVEAL: :frag (appear)
+  + Introduced by Simplify [Nelson '05]
+  + Matching patterns guiding SMT solvers to better instantiation heuristically 
+  + Annotations! _NOT Specification_ (logically, shouldn't introduce fluctuations)
+  
+** Boogie supports triggers
+#+ATTR_REVEAL: :frag (appear)
+#+BEGIN_SRC boogie
+  axiom (forall x : t :: {f(x)} 
+                 f_inv(f(x)) == x ); 
+#+END_SRC
+  #+ATTR_REVEAL: :frag (appear)
+  + whenever Z3 sees any ground term of pattern `f(x)` in her search space, please also instantiate this quantified formula.
+  + hands over control to end user; You need to know your SMT solvers!
+  + _Additional limitations_ on trigger patterns
+  + Heavily used by Boogie front ends [Leino '10]
+
+** Limitations & Pitfalls of Triggers
+  + Discriminating: 
+    All bounded variables must be mentioned
+  + Matching loops:
+    Non-terminating instantiation loops 
+  + Absence of other theories
+
+** No Possible Triggers
+#+BEGIN_NOTES
+Showing that it is not always possible to write valid triggers
+#+END_NOTES
+
+
+# [Trigger can go wrong!]
+* Demo 
+
+** 
+#+BEGIN_NOTES
+Hidden slide in case Live demo goes wrong
+#+END_NOTES
+
+* 
+#+ATTR_REVEAL: :frag (appear)
+#+REVEAL_HTML:<img data-src="./assets/shoot.jpg">
+
+
+# [TECHNICAL PART]
+* Let Vampire Boogie!
+** Encoding Boogie in TPTP 
+ Using Weakest Precondition, our prototype encodes core Boogie into TPTP as follows:
+
+** FOOL comes to help: Tuples & arrays 
+ + Tuple construct in recent Vampire is important for our encoding, allowing the encoding to be concise
+   (Leaving optimization to the prover / strategies of the prover) 
+ + Theory of array coincides with Boogie's `MapType`
+ + Let-in models update: let the prover handles SSA optimally
+ 
+
+** B_oogie L_ess T_riggers (BLT™)
++ Prototype implmentation of Boogie => TPTP encoding 
++ handles core parts of Boogie 
++ efficient encoding in terms of VC size (thanks to FOOL) 
++ accepted @iFM'17 
+
+** 
+#+REVEAL_HTML:<img class="plain" data-src="./assets/BLT_Flow.png">
+
+* TODO Experiment Results 
+
+* Conclusion 
+_BLT_ witnesses: 
+  + A more robust, fully-automatic alternative for quantifier reasoning
+  + FOTPs can be used in verification condition proofs
+  + Annotations should and can be kept minimal for verification, provided with right tools
+
+#+ATTR_REVEAL: :frag (appear)
+Next Steps? 
+#+ATTR_REVEAL: :frag (appear)
+  + Complete support for entire Boogie (polymorphism / unstructured program / bit vectors) 
+  + Efficiency comparison of different encodings in FOL 
+  + Combining the two worlds for the better one
+
+
+* A bit more!
+** Vampire can handle SMTLib directly, why go through another translation? 
+  + SMTLib stright from Boogie can be noisy for Vampire. 
+  + Boogie VCGen generally works on unstructured programs; passification can hinder the performance [Leino '04]
+  + SMTLib encoding doesn't use corresponding tuples 
+  + Encoding doesn't suggest the best practice: 
+ 
+    "One should let the solver decide what to do" 
+  
+** TODO Experiment Result Comparison 
+  BLT generated TPTP v.s. SMTLib from Boogie
+
+
+* Passification
+  Passification [Leino '05] consists of two parts: 
+  1) static single assignment (SSA) form 
+  2) passification with `havoc + assume`
+
+#+ATTR_REVEAL: :frag (appear)
+Introduce equalities everywhere, not for superposition provers 
+
+* TODO Triggers in different level
+  Z3 has her own heuristic when it comes to triggers, meaning user doesn't always need to provide one manually. 
+#+BEGIN_NOTES
+  Z3 trigger example
+#+END_NOTES
+

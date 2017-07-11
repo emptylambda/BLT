@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title></title>
+<meta name="author" content="(Yu-Ting Chen)"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="file:////Users/yutingc/BLT/Presentation/reveal.js/css/reveal.css"/>
+
+<link rel="stylesheet" href="file:////Users/yutingc/BLT/Presentation/reveal.js/css/theme/simple.css" id="theme"/>
+
+
+<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+<script>
+    if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = 'file:////Users/yutingc/BLT/Presentation/reveal.js/css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    }
+</script>
+</head>
+<body>
+<img src="assets/chalmerslogo.tiff" style="height:65px; margin: 10px 20px;" align="right" >
+<div class="reveal">
+<div class="slides">
+
+<section>
+<section id="slide-orgbec459b">
+<h2 id="orgbec459b">Let Vampire Boogie!</h2>
+<p>
+Using Vampire as Intermediate Verification Back-End
+</p>
+<br/>
+<hr><br/>
+<p>
+@ 4th Vampire workshop (Göteborg)
+</p>
+
+<p>
+by 
+</p>
+<u>YuTing Chen</u> & Carlo A. Furia
+
+</section>
+</section>
+<section>
+<section id="slide-orgc5cdfcb">
+<h2 id="orgc5cdfcb"></h2>
+<div class="outline-text-2" id="text-orgc5cdfcb">
+</div></section>
+<section id="slide-orgc5985da">
+<h3 id="orgc5985da">Proving a program is correct &#x2026;</h3>
+<ul>
+<li class="fragment appear">More than just taking in a correct program</li>
+<li class="fragment appear">Also more than showing a program <span class="underline">does not go wrong</span></li>
+<li class="fragment appear"><span class="underline">Functional</span> correctness (does the <span class="underline">right</span> things)</li>
+<li class="fragment appear">Pre / Post-conditions + other specs (framing / invariants &#x2026;)</li>
+<li class="fragment appear"><span class="underline">Iterative</span> process of tuning on Program + Specs</li>
+<li class="fragment appear">(Responsive) Automation is needed</li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-org561439c">
+<h2 id="org561439c"></h2>
+<div class="outline-text-2" id="text-org561439c">
+</div></section>
+<section id="slide-org17aea85">
+<h3 id="org17aea85">Intermediate Verification</h3>
+<ul>
+<li class="fragment appear">Interfacing layer for program verifiers</li>
+<li class="fragment appear"><span class="underline">Core language</span> for both Spec and Program</li>
+<li class="fragment appear">Contract-based spec (Pre / Post condition)</li>
+<li class="fragment appear"><span class="underline">Verification Condition Generation</span> (VC gen)</li>
+<li class="fragment appear">Boogie / Why3 / &#x2026;</li>
+
+</ul>
+
+</section>
+<section id="slide-org7760cd3">
+<h3 id="org7760cd3">Existing Pipeline for Verifiers</h3>
+<img class="plain" data-src="./assets/Exist_BLT_Flow.png">
+
+</section>
+<section id="slide-org1716dc6">
+<h3 id="org1716dc6">Boogie</h3>
+<ul>
+<li class="fragment appear">Refering to both the VCGen tool &amp; language (aka BoogiePL)</li>
+<li class="fragment appear">Default back-end prover: Z3 / cvc4</li>
+<li class="fragment appear">Basis of several verifiers (Dafny / Spec# / VCC / HAVOC &#x2026;)</li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-org7ebe053">
+<h2 id="org7ebe053">Demo</h2>
+<div class="outline-text-2" id="text-org7ebe053">
+</div></section>
+<section id="slide-org76e529d">
+<h3 id="org76e529d"></h3>
+<aside class="notes">
+<p>
+Hidden slide in case Live demo goes wrong
+</p>
+
+</aside>
+</section>
+</section>
+<section>
+<section id="slide-org4efbf4c">
+<h2 id="org4efbf4c">Quantifier Reasoning</h2>
+<p class="fragment (appear)">
+(especially, the universal ones)
+</p>
+<h1>∀</h1>
+<div class="org-src-container">
+
+<pre  class="fragment (appear)"><span style="color: #20b2aa; font-weight: bold;">forall</span> <span style="color: #9acd32;">i</span> : <span style="color: #9370db;">int</span> :: i != i + 1; 
+<span style="color: #20b2aa; font-weight: bold;">forall</span> <span style="color: #9acd32;">i</span> : <span style="color: #9370db;">int</span> :: (<span style="color: #20b2aa; font-weight: bold;">exists</span> <span style="color: #9acd32;">j</span> : <span style="color: #9370db;">int</span> :: i &lt; j);
+</pre>
+</div>
+</section>
+<section id="slide-org60fd5e0">
+<h3 id="org60fd5e0">Forall, but for which?</h3>
+<ul>
+<li class="fragment appear">∀ x can be instantiated with any concrete value (logically sound)</li>
+<li class="fragment appear">Instantiated terms clutter the search space</li>
+<li class="fragment appear">SMT solvers have difficulties dealing with quantifiers 
+(not generally decidable)</li>
+
+</ul>
+
+</section>
+<section id="slide-orga93c619">
+<h3 id="orga93c619">Triggers: directives for instantiation</h3>
+<ul>
+<li class="fragment appear">Introduced by Simplify [Nelson '05]</li>
+<li class="fragment appear">Matching patterns guiding SMT solvers to better instantiation heuristically</li>
+<li class="fragment appear">Annotations! <span class="underline">NOT Specification</span> (logically, shouldn't introduce fluctuations)</li>
+
+</ul>
+
+</section>
+<section id="slide-orgf42fff9">
+<h3 id="orgf42fff9">Boogie supports triggers</h3>
+<div class="org-src-container">
+
+<pre  class="fragment (appear)"><span style="color: #76ee00;">axiom</span> (<span style="color: #20b2aa; font-weight: bold;">forall</span> <span style="color: #9acd32;">x</span> : <span style="color: #9370db;">t</span> :: <span style="color: #1e90ff;">{</span><span style="color: #00ff7f; text-decoration: underline;">f</span><span style="text-decoration: underline;">(x)</span><span style="color: #1e90ff;">}</span> 
+         <span style="color: #00ff7f;">f_inv</span>(<span style="color: #00ff7f;">f</span>(x)) == x );
+</pre>
+</div>
+<ul>
+<li class="fragment appear">whenever Z3 sees any ground term of pattern `f(x)` in her search space, please also instantiate this quantified formula.</li>
+<li class="fragment appear">hands over control to end user; You need to know your SMT solvers!</li>
+<li class="fragment appear"><span class="underline">Additional limitations</span> on trigger patterns</li>
+<li class="fragment appear">Heavily used by Boogie front ends [Leino '10]</li>
+
+</ul>
+
+</section>
+<section id="slide-org61658fb">
+<h3 id="org61658fb">Limitations &amp; Pitfalls of Triggers</h3>
+<ul>
+<li>Discriminating: 
+All bounded variables must be mentioned</li>
+<li>Matching loops:
+Non-terminating instantiation loops</li>
+<li>Absence of other theories</li>
+
+</ul>
+
+</section>
+<section id="slide-org264438e">
+<h3 id="org264438e">No Possible Triggers</h3>
+<aside class="notes">
+<p>
+Showing that it is not always possible to write valid triggers
+</p>
+
+</aside>
+</section>
+</section>
+<section>
+<section id="slide-org57011cc">
+<h2 id="org57011cc">Demo</h2>
+<div class="outline-text-2" id="text-org57011cc">
+</div></section>
+<section id="slide-org90ebebf">
+<h3 id="org90ebebf"></h3>
+<aside class="notes">
+<p>
+Hidden slide in case Live demo goes wrong
+</p>
+
+</aside>
+
+</section>
+</section>
+<section>
+<section id="slide-org1639d1f">
+<h2 id="org1639d1f"></h2>
+<img data-src="./assets/shoot.jpg">
+</section>
+</section>
+<section>
+<section id="slide-orgc0ec360">
+<h2 id="orgc0ec360">Let Vampire Boogie!</h2>
+<div class="outline-text-2" id="text-orgc0ec360">
+</div></section>
+<section id="slide-org97318ba">
+<h3 id="org97318ba">Encoding Boogie in TPTP</h3>
+<p>
+Using Weakest Precondition, our prototype encodes core Boogie into TPTP as follows:
+</p>
+
+</section>
+<section id="slide-orgb124036">
+<h3 id="orgb124036">FOOL comes to help: Tuples &amp; arrays</h3>
+<ul>
+<li>Tuple construct in recent Vampire is important for our encoding, allowing the encoding to be concise
+(Leaving optimization to the prover / strategies of the prover)</li>
+<li>Theory of array coincides with Boogie's `MapType`</li>
+<li>Let-in models update: let the prover deal with SSA optimally</li>
+
+</ul>
+
+
+</section>
+<section id="slide-org7eb309e">
+<h3 id="org7eb309e">B<sub>oogie</sub> L<sub>ess</sub> T<sub>riggers</sub> (BLT™)</h3>
+<ul>
+<li>Prototype implmentation of Boogie =&gt; TPTP encoding</li>
+<li>handles core parts of Boogie</li>
+<li>efficient encoding in terms of VC size (thanks to FOOL)</li>
+<li>accepted @iFM'17</li>
+
+</ul>
+
+</section>
+<section id="slide-org00e86f4">
+<h3 id="org00e86f4"></h3>
+<img class="plain" data-src="./assets/BLT_Flow.png">
+
+</section>
+</section>
+<section>
+<section id="slide-orgb5a679f">
+<h2 id="orgb5a679f"><span class="todo TODO">TODO</span> Experiment Results</h2>
+
+</section>
+</section>
+<section>
+<section id="slide-orgdfd5a54">
+<h2 id="orgdfd5a54">Conclusion</h2>
+<p>
+<span class="underline">BLT</span> witnesses: 
+</p>
+<ul>
+<li>A more robust, fully-automatic alternative for quantifier reasoning</li>
+<li>FOTPs can be used in verification condition proofs</li>
+<li>Annotations should and can be kept minimal for verification, provided with right tools</li>
+
+</ul>
+
+<p class="fragment (appear)">
+Next Steps? 
+</p>
+<ul>
+<li class="fragment appear">Complete support for entire Boogie (polymorphism / unstructured program / bit vectors)</li>
+<li class="fragment appear">Efficiency comparison of different encodings in FOL</li>
+<li class="fragment appear">Combining the two worlds for the better one</li>
+
+</ul>
+
+
+</section>
+</section>
+<section>
+<section id="slide-orgac3e940">
+<h2 id="orgac3e940">A bit more!</h2>
+<div class="outline-text-2" id="text-orgac3e940">
+</div></section>
+<section id="slide-orge12e7c7">
+<h3 id="orge12e7c7">Vampire can handle SMTLib directly, why go through another translation?</h3>
+<ul>
+<li>SMTLib stright from Boogie can be noisy for Vampire.</li>
+<li>Boogie VCGen generally works on unstructured programs; passification can hinder the performance [Leino '04]</li>
+<li>SMTLib encoding doesn't use corresponding tuples</li>
+<li><p>
+Encoding doesn't suggest the best practice: 
+</p>
+
+<p>
+"One should let the solver decide what to do" 
+</p></li>
+
+</ul>
+
+</section>
+<section id="slide-orgde807e2">
+<h3 id="orgde807e2"><span class="todo TODO">TODO</span> Experiment Result Comparison</h3>
+<p>
+BLT generated TPTP v.s. SMTLib from Boogie
+</p>
+
+
+</section>
+</section>
+<section>
+<section id="slide-org9c9065b">
+<h2 id="org9c9065b">Passification</h2>
+<p>
+Passification [Leino '05] consists of two parts: 
+</p>
+<ol>
+<li>static single assignment (SSA) form</li>
+<li>passification with `havoc + assume`</li>
+
+</ol>
+
+<p class="fragment (appear)">
+Introduce equalities everywhere, not for superposition provers 
+</p>
+
+</section>
+</section>
+<section>
+<section id="slide-org620a9af">
+<h2 id="org620a9af"><span class="todo TODO">TODO</span> Triggers in different level</h2>
+<p>
+Z3 has her own heuristic when it comes to triggers, meaning user doesn't always need to provide one manually. 
+</p>
+<aside class="notes">
+<p>
+Z3 trigger example
+</p>
+
+</aside>
+</section>
+</section>
+</div>
+</div>
+<script src="file:////Users/yutingc/BLT/Presentation/reveal.js/lib/js/head.min.js"></script>
+<script src="file:////Users/yutingc/BLT/Presentation/reveal.js/js/reveal.js"></script>
+
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: false,
+center: false,
+slideNumber: 'c/t',
+rollingLinks: false,
+keyboard: true,
+overview: true,
+
+theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+transition: Reveal.getQueryHash().transition || 'fade', // default/cube/page/concave/zoom/linear/fade/none
+transitionSpeed: 'default',
+multiplex: {
+    secret: '', // null if client
+    id: '', // id, obtained from socket.io server
+    url: '' // Location of socket.io server
+},
+
+// Optional libraries used to extend on reveal.js
+dependencies: [
+ { src: 'file:////Users/yutingc/BLT/Presentation/reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+ { src: 'file:////Users/yutingc/BLT/Presentation/reveal.js/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+ { src: 'file:////Users/yutingc/BLT/Presentation/reveal.js/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+ { src: 'file:////Users/yutingc/BLT/Presentation/reveal.js/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+ { src: 'file:////Users/yutingc/BLT/Presentation/reveal.js/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }]
+});
+</script>
+</body>
+</html>
