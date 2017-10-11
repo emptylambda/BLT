@@ -32,6 +32,17 @@ file. -->
 - [OSX Binary](https://github.com/emptylambda/BLT/raw/bdad4168d8868ca87a7ccb92a69d345e1b8af14c/bin/BLT_osx_alpha)
 - [Linux x64 Binary](https://github.com/emptylambda/BLT/raw/5d62d16ea11470d024c08e9bec2b2f49304aa517/bin/BLT_unix_001)
 
+### BLT Usage
+See the translation in STDOUT: 
+`BLT --file=<yourBoogieFile.bpl>`
+
+Or write them into seperate files: 
+`BLT --file=<yourBoogieFile.bpl> --tofile=True`
+
+Another option is to enable Tuple encoding: 
+`BLT --file=<yourBoogieFile.bpl> --usetuple=True`
+
 ### Contact
 Does BLT suit your interest?  Or do you wish to use BLT for other
 research? Please feel free drop us a mail anytime!  
+

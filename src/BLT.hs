@@ -22,7 +22,7 @@ import Data.Maybe (catMaybes)
 import qualified Text.PrettyPrint.ANSI.Leijen as L
 
 programName = "BLT"
-versionName = "alpha release 0.1"
+versionName = "1.0"
 releaseDate = fromGregorian 2017 4 1 
 
 data Format = BPL | TPTP
@@ -40,11 +40,9 @@ main = do
 
 data CLAs =
   Typecheck {
-  -- | input file
   file :: String
   } |
   Split {
-  -- | input 
   file :: String,
   toFile :: Bool 
   } |
@@ -52,7 +50,6 @@ data CLAs =
   file :: String
   } | 
   Prove {
-  -- | input
   file :: String,
   proofFormat :: Format,
   proverLocation :: String,
@@ -82,7 +79,7 @@ filter = Filter {  file         = ""        &= typFile &= argPos 0 }
 translate = Translate {
   file         = ""        &= typFile &= argPos 0,
   toFile       = False     &= help "Write output of split to files (Default: False)",
-  useTuple      = False     &= help "Use tuple translation or not (Default: False)"
+  useTuple     = False     &= help "Use tuple translation or not (Default: False)" &= typ "BOOLEAN"
   } &= auto &= help "Translate input Boogie program into TPTP format" 
 
 prove = Prove {
@@ -176,7 +173,8 @@ filtering file prog@(Program decls) ctx = do
     exitFailure
     else if and (map (containsTypeVar . node) decls)
          then do (putStrLn $ color blue $ "Found TypeVar: " ++ file) >> exitFailure
-         else do print $ pretty prog -- putStrLn $ color green $ file ++ " Cleared "
+         else do putStrLn $ color green $ file ++ " Cleared \n"
+                 print $ pretty prog
   where stmts = (bareStmts . bodies') prog
         gotos = concatMap containsGOTO stmts 
 
