@@ -47,7 +47,7 @@ Another option is to enable Tuple encoding:
 
 
 ### [UPDATE] From THF to TFX
-As TPTP recently announced official update, we are currently upgrading our syntax accordingly. 
+As TPTP recently announced official [update](http://www.cs.miami.edu/~tptp/TPTP/Proposals/TFXTHX.html), we are currently upgrading our syntax accordingly. 
 
 
 ### Contact
