@@ -139,10 +139,17 @@ instance Pretty Sentence where
     where text' s = text $ map toLower s 
 
 instance Pretty TPTP where
-  pretty (TPTP sens) = vsep $ map (thfWrapping . pretty) (sort sens)
+  pretty (TPTP sens) = vsep $ map (tfxWrapping . pretty) (sort sens)
   
+
+-- No longer using THF, opt for TFX instead
 thfWrapping :: Doc -> Doc
 thfWrapping term = text "thf" <> parens term <> text "."
+
+-- T_ypedF_irstordereX_ TFX:see http://www.cs.miami.edu/~tptp/TPTP/Proposals/TFXTHX.html
+tfxWrapping :: Doc -> Doc
+tfxWrapping term = text "tfx" <> parens term <> text "."
+
 
 instance Ord Sentence where
   -- -- so $tType gets promoted 
